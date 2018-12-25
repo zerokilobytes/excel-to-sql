@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 from xlrd import open_workbook
 import time
-from Models.sql_sheet import SQLSheet
 import glob
 import os
+
+from Models.sql_sheet import SQLSheet
+from Models.constants import Constants
 
 """
 Excel to SQL tool
@@ -13,6 +15,7 @@ Generates SQL statements for an Excel workbook
 os.chdir(".")
 for filename in glob.glob("*.xls*"):
     wb = open_workbook(filename)
+    Constants.WB_DATE_MODE = wb.datemode
 
     #: Set directory and file names
     file_base_name = filename.rsplit('.', 1)[0]

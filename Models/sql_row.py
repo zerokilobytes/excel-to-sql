@@ -1,3 +1,8 @@
+import xlrd
+import datetime
+
+from Models.constants import Constants
+from Models.utililty import Utility
 
 """
 SQLRow
@@ -24,9 +29,21 @@ class SQLRow(object):
     def set_values(self, sheet, index):   #: -> void
         #: Sets the list of values for the row item
         number_of_columns = sheet.ncols
+
         for col in range(number_of_columns):
-            value = sheet.cell(index, col).value
-            value = str(value).replace("'", "''")
+            cell = sheet.cell(index, col)
+            value = cell.value
+
+            #: Check the cell type and convert to date if necessary
+            if cell.ctype == xlrd.XL_CELL_DATE:
+                data_int = Utility.int_try_parse(value)
+                date_tuple = xlrd.xldate_as_tuple(data_int, Constants.WB_DATE_MODE)
+                date = datetime.date(date_tuple[0], date_tuple[1], date_tuple[2])
+                # required format for xsd:Date type, for web service call
+                value = date.isoformat()
+            else:
+                value = str(value).replace("'", "''").strip()
+
             try:
                 value = str(int(value)).strip()
             except ValueError:
