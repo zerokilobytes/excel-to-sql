@@ -1,0 +1,7 @@
+Place all excel files in this location. The excel spreadsheet and generated 
+SQL commands will be moved in a folder with the same name as the excel spreadsheet file
+in this same location
+
+Eg.
+sales.xlsx will be moved to ./sales/sales.xlsx
+sql statements for sales.xlsx will be created in ./sales
