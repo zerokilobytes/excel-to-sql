@@ -30,4 +30,4 @@ for filename in glob.glob("*.xls*"):
     print('SQL Generated Successfully in ' + base_directory + "/" + file_base_name)
 
 print('Tasks Completed Successfully.')
-time.sleep(1)
+time.sleep(3)

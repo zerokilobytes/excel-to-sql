@@ -1,5 +1,5 @@
 import re
-
+from Models.constants import Constants
 
 """
 SQLHeader
@@ -9,9 +9,6 @@ Get the list of headers in the sheet
 
 class SQLHeader(object):
     def __init__(self, sheet):
-        key_words = ['KEY', 'EXEC', 'EXISTS', 'EXISTS', 'TABLE', 'TABLE', 'VALUES',
-                     'PROCEDURE', 'PROCEDURE', 'IN', 'FROM', 'DEFAULT', 'DATABASE'
-                     'COLUMN', 'CASE', 'ANY', 'ADD']
         self.number_of_columns = sheet.ncols
         self.headers = []
 
@@ -24,7 +21,7 @@ class SQLHeader(object):
                 key = re.sub('[^0-9a-zA-Z]+', '_', key)
 
                 #: Replace SQL keywords
-                if key in key_words:
+                if key in Constants.key_words:
                     key = key + '_'
 
                 #: Add the key to the list of keys

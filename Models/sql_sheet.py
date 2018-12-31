@@ -5,6 +5,7 @@ import errno
 from Models.sql_row import SQLRow
 from Models.sql_header import SQLHeader
 from Models.sql_table import SQLTable
+from Models.constants import Constants
 
 
 """
@@ -27,6 +28,9 @@ class SQLSheet:
 
         self.directory = directory
         self.table_name = re.sub('[^0-9a-zA-Z]+', '_', self.sheet.name).upper()
+		#: Replace SQL keywords
+        if self.table_name in Constants.key_words:
+            self.table_name = self.table_name + '_'
 
         number_of_rows = self.sheet.nrows
 
@@ -61,7 +65,7 @@ class SQLSheet:
 
         #: Sets sql statements for creating table and inserting rows
         sql_create_table = SQLTable(header, self.sql_rows_arr, self.table_name)
-        sql_select_table = "\n\nSELECT * FROM {0}; \n\n".format(self.table_name)
+        sql_select_table = "\n\n--SELECT * FROM {0}; \n\n".format(self.table_name)
 
         #: Writes file and then close it
         text_file.write(str(sql_create_table))
